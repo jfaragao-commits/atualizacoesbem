@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>B.E.M — Percepção Musical</title>
   <!-- VexFlow para o módulo Ditado Melódico -->
-  <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/vexflow.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/cjs/vexflow.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:wght@400;700;900&display=swap');
 
@@ -2944,6 +2944,7 @@ function dRenderStaff() {
   const host = $('dStaff'); host.innerHTML = '';
   const model = dCurrent.model;
   try {
+    if (typeof Vex === 'undefined') throw new Error('VexFlow não carregou (confira a aba Network)');
     const VF = Vex.Flow;
     const mp = model.meter.split('/').map(Number);
     const perBarW = 240;
@@ -3005,7 +3006,7 @@ function dRenderStaff() {
     });
   } catch (err) {
     console.error('Ditado — erro de notação:', err);
-    host.innerHTML = '<div style="padding:20px;color:#444;font-family:var(--mono);font-size:11px">Não foi possível desenhar a pauta.</div>';
+    host.innerHTML = '<div style="padding:20px;color:#444;font-family:var(--mono);font-size:11px">Não foi possível desenhar a pauta.<br>' + String(err && err.message || err) + '</div>';
   }
 }
 
@@ -3691,7 +3692,7 @@ function generateLilyPond() {
     const body = lilyBarline(parsed.map(p => lilyPitch(p)), v);
     const name = i === 0 ? 'cantusFirmus' : `voz${i+1}`;
     lines.push(`${name} = {`);
-    lines.push('  ' + body.replace(/\|/g, '|\\n  '));
+    lines.push('  ' + body.replace(/\|/g, '|\n  '));
     lines.push('}');
     lines.push('');
   });
@@ -3713,7 +3714,7 @@ function generateLilyPond() {
   lines.push('  \\midi { }');
   lines.push('}');
 
-  const result = lines.join('\\n');
+  const result = lines.join('\n');
   $('lyout').value = result;
   return result;
 }
