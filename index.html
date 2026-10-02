@@ -1874,9 +1874,10 @@ function hFlash(id) {
 }
 function hNewRandom() {
   let pool = hRandMode === 'major' ? H_CHORDS.major : hRandMode === 'minor' ? H_CHORDS.minor : [...H_CHORDS.major, ...H_CHORDS.minor];
-  hLoadChord(pool[Math.floor(Math.random() * pool.length)]);
+  // Ao abrir o app, apenas prepara o exercício — não reproduz áudio automaticamente.
+  hLoadChord(pool[Math.floor(Math.random() * pool.length)], false, false);
 }
-function hLoadChord(chord, isProfMode = false) {
+function hLoadChord(chord, isProfMode = false, autoplay = true) {
   hCurrentChord = chord; hChordRevealed = false; hAnswered = false; hGuessAnswered = false;
   hSelectedFunc = null; hCurrentIsProfMode = isProfMode;
   document.getElementById('hChordName').textContent = chord.name;
@@ -1894,7 +1895,7 @@ function hLoadChord(chord, isProfMode = false) {
   document.querySelectorAll('#hFuncGrid .func-btn').forEach(b => b.classList.remove('selected','correct-ans','wrong-ans'));
   document.querySelectorAll('#hGuessGrid .chord-guess-btn').forEach(b => b.classList.remove('correct-ans','wrong-ans'));
   hUpdateSelHighlight(chord.name);
-  setTimeout(() => hPlayChord(), 80);
+  if (autoplay) setTimeout(() => hPlayChord(), 80);
 }
 function hRevealAll() {
   if (!hChordRevealed) {
@@ -2037,7 +2038,7 @@ function iPlayNote2() { initAudio(); playNote(iGetFreqs()[1], audioCtx.currentTi
 function iPlaySeq() { initAudio(); const [fA, fB] = iGetFreqs(); const now = audioCtx.currentTime; playNote(fA, now, 1.6); playNote(fB, now + 1.7, 1.6); iFlash('iBtnSeq'); }
 function iPlayHarm() { initAudio(); const [fA,fB] = iGetFreqs(), t = audioCtx.currentTime; playNote(fA, t, 2.2); playNote(fB, t, 2.2); iFlash('iBtnHarm'); }
 
-function iNew() {
+function iNew(autoplay = true) {
   iAnswered = false; iSelected = null; iRevealed = false;
   const pool = INTERVALS.filter(iv => iActiveFilters.has(iv.semitones));
   const interval = pool[Math.floor(Math.random() * pool.length)];
@@ -2059,7 +2060,9 @@ function iNew() {
   document.getElementById('iFb').className = 'feedback';
   document.getElementById('iBtnCheck').disabled = true;
   document.querySelectorAll('#iIntTable .int-opt').forEach(b => b.classList.remove('selected','correct-ans','wrong-ans'));
-  setTimeout(() => iPlaySeq(), 80);
+  // Ao abrir o app, prepara o exercício sem reproduzir áudio automaticamente.
+  // Novos exercícios gerados pelo usuário continuam tocando a sequência.
+  if (autoplay) setTimeout(() => iPlaySeq(), 80);
 }
 function iNoteFromMidi(midi) { const ns = ['C','C#','D','Eb','E','F','F#','G','Ab','A','Bb','B']; return ns[((midi % 12) + 12) % 12]; }
 function iToggleReveal() {
@@ -2155,7 +2158,7 @@ function iRenderStats() {
     row.appendChild(cell);
   });
 }
-function iInit() { iRenderFilterGrid(); iRenderAnswerGrid(); iRenderStats(); iNew(); }
+function iInit() { iRenderFilterGrid(); iRenderAnswerGrid(); iRenderStats(); iNew(false); }
 
 /* ============ PRÁTICA ============ */
 const PILARES = [
