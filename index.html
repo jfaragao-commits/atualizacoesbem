@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>B.E.M — Percepção Musical</title>
   <!-- VexFlow para o módulo Ditado Melódico -->
-  <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/cjs/vexflow.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/vexflow.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:wght@400;700;900&display=swap');
 
@@ -159,7 +159,6 @@
     .tab-badge { font-size: 8px; padding: 1px 5px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-faint); }
     .snav-btn.active .tab-badge { background: var(--gold); color: var(--bg); border-color: var(--gold); }
     .snav-icon { font-size: 12px; margin-right: 8px; opacity: .6; flex-shrink: 0; }
-    /* Cabeçalho de grupo na sidebar (novo — Percepção) */
     .snav-group {
       padding: 1rem 1.2rem .35rem; font-size: 8px; letter-spacing: 0.22em;
       text-transform: uppercase; color: var(--gold); opacity: .75;
@@ -582,6 +581,101 @@
     .d-lily-actions .btn { border: 0; border-right: 1px solid var(--border); padding: 12px; }
     .d-lily-actions .btn:last-child { border-right: 0; }
     .d-hint { color: var(--text-faint); font-size: 11px; padding: 4px 0; font-style: italic; }
+
+    /* ============================================================
+       MÓDULO CONTRAPONTO (Fux) — estilos específicos (prefixo ct-)
+       ============================================================ */
+    #view-contraponto {
+      --ct-v0: var(--accent);
+      --ct-v1: var(--green);
+      --ct-v2: var(--gold);
+      --ct-v3: #7A9BC8;
+    }
+    .ct-btn {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .08em;
+      text-transform: uppercase; padding: 6px 10px;
+      border: 1px solid var(--border-lt); background: transparent;
+      color: var(--text); cursor: pointer; transition: all .14s;
+    }
+    .ct-btn:hover:not(:disabled) { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+    .ct-btn:disabled { opacity: .35; cursor: not-allowed; }
+    .ct-btn.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+    .ct-btn.primary:hover { background: var(--gold); border-color: var(--gold); }
+
+    .ct-bar {
+      display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center;
+      margin-top: 10px;
+    }
+    .ct-bar > label {
+      display: inline-flex; gap: 6px; align-items: center; margin: 0;
+      font: 500 10px var(--mono); letter-spacing: .08em; text-transform: uppercase;
+      color: var(--text-mid);
+    }
+    .ct-bar select { width: auto; font-size: 11px; }
+    .ct-bar input[type=range] { width: 100px; }
+
+    .ct-grid {
+      display: grid;
+      grid-template-columns: minmax(0,340px) minmax(0,1fr);
+      gap: 1.2rem; align-items: start;
+    }
+    @media (max-width: 900px) { .ct-grid { grid-template-columns: 1fr; } }
+
+    .ct-vc {
+      border: 1px solid var(--border); padding: 10px; margin-bottom: 10px;
+      background: var(--bg);
+    }
+    .ct-vc.act { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+    .ct-vh {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      margin-bottom: 8px; font: 600 11px var(--mono); color: var(--text);
+    }
+    .ct-vh i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; flex-shrink: 0; }
+    .ct-vh .sp { flex: 1; }
+    .ct-vh select { width: auto; padding: 2px 6px; font-size: 11px; }
+    .ct-vh label {
+      display: inline-flex; gap: 5px; align-items: center; margin: 0;
+      font: 500 10px var(--mono); letter-spacing: .06em; text-transform: uppercase;
+      color: var(--text-mid); cursor: pointer;
+    }
+    .ct-vc textarea {
+      width: 100%; font: 12px/1.4 var(--mono); color: var(--text);
+      background: #080808; border: 1px solid var(--border-lt);
+      padding: 8px; min-height: 60px; resize: vertical;
+    }
+    .ct-vc textarea:focus { outline: none; border-color: var(--gold); }
+
+    .ct-hint { font: 11px/1.5 var(--mono); color: var(--text-faint); margin: 10px 0 0; }
+
+    #ct-sum { font: 600 14px var(--mono); margin: 0 0 10px; color: var(--text); letter-spacing: .04em; }
+    #ct-sum.ok  { color: var(--green); }
+    #ct-sum.bad { color: var(--red); }
+
+    .ct-roll { overflow-x: auto; border: 1px solid var(--border); background: #080808; }
+    .ct-roll svg { display: block; touch-action: pan-x; cursor: crosshair; }
+    .ct-roll svg text { fill: var(--text-faint); font: 10px var(--mono); }
+
+    .ct-list { list-style: none; margin: 14px 0 0; padding: 0; }
+    .ct-list li {
+      padding: 7px 0 7px 12px; border-left: 3px solid var(--border);
+      margin-bottom: 6px; font-size: 12px; color: var(--text-mid); line-height: 1.5;
+    }
+    .ct-list li.erro  { border-color: var(--red); }
+    .ct-list li.aviso { border-color: var(--gold); }
+    .ct-list li b {
+      font: 600 10px var(--mono); margin-right: 6px;
+      letter-spacing: .1em; text-transform: uppercase;
+    }
+    .ct-list li.erro  b { color: var(--red); }
+    .ct-list li.aviso b { color: var(--gold); }
+
+    .ct-lyout {
+      width: 100%; min-height: 260px;
+      font: 11px/1.5 var(--mono); color: var(--text);
+      background: #080808; border: 1px solid var(--border-lt);
+      padding: 10px; resize: vertical; letter-spacing: 0;
+    }
+    .ct-lyout:focus { outline: none; border-color: var(--gold); }
   </style>
 </head>
 <body>
@@ -748,6 +842,9 @@ setTimeout(function () {
     <button class="snav-btn" id="snav-ditado" onclick="switchTab('ditado')">
       <span><span class="snav-icon">♫</span>Ditado Melódico</span>
       <span class="tab-badge" id="badgeD">0</span>
+    </button>
+    <button class="snav-btn" id="snav-contraponto" onclick="switchTab('contraponto')">
+      <span><span class="snav-icon">⚖</span>Contraponto (Fux)</span>
     </button>
 
     <div class="snav-group">Harmonia Gráfica</div>
@@ -957,10 +1054,9 @@ setTimeout(function () {
     </div>
   </div>
 
-  <!-- ==================== VIEW: DITADO MELÓDICO (novo) ==================== -->
+  <!-- ==================== VIEW: DITADO MELÓDICO ==================== -->
   <div class="view" id="view-ditado">
 
-    <!-- CONFIGURAÇÃO -->
     <div class="panel">
       <div class="panel-label">Configuração</div>
       <div class="d-grid">
@@ -1094,7 +1190,6 @@ setTimeout(function () {
       </details>
     </div>
 
-    <!-- AÇÕES -->
     <div class="panel">
       <div class="panel-label">Ações</div>
       <div class="d-actions">
@@ -1105,7 +1200,6 @@ setTimeout(function () {
       </div>
     </div>
 
-    <!-- MAPA MÉTRICO -->
     <div class="panel">
       <div class="panel-label">
         Mapa métrico
@@ -1117,13 +1211,11 @@ setTimeout(function () {
       </div>
     </div>
 
-    <!-- DESAFIO AUDITIVO -->
     <div class="panel" id="dQuizPanel">
       <div class="panel-label">Desafio auditivo</div>
       <div class="d-hint">Gere um exercício para começar.</div>
     </div>
 
-    <!-- REPRESENTAÇÃO MUSICAL (LilyPond) -->
     <details class="panel" id="dLilyBox" style="padding:0;border:1px solid var(--border)">
       <summary style="list-style:none;cursor:pointer;padding:1.1rem 1.4rem;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:flex;justify-content:space-between;align-items:center">
         <span>Representação musical — fonte LilyPond</span>
@@ -1135,13 +1227,82 @@ setTimeout(function () {
       </div>
     </details>
 
-    <!-- Histórico do módulo -->
     <div class="panel">
       <div class="panel-label">Histórico do Ditado (sessão)</div>
       <div class="history-list" id="dHistory">
         <div class="history-empty">Nenhuma resposta ainda.</div>
       </div>
     </div>
+  </div>
+
+  <!-- ==================== VIEW: CONTRAPONTO ==================== -->
+  <div class="view" id="view-contraponto">
+
+    <div class="panel">
+      <div class="panel-label">Conferidor de contraponto — 1ª e 2ª espécies de Fux</div>
+      <p class="ct-hint" style="margin-top:0">
+        Escreva ou desenhe as vozes, ouça o resultado e veja as regras apontando cada problema.
+      </p>
+      <div class="ct-bar">
+        <button id="ct-play" class="ct-btn primary">▶ Tocar</button>
+        <button id="ct-stop" class="ct-btn">■ Parar</button>
+        <label>Andamento
+          <input type="range" id="ct-bpm" min="40" max="160" value="80">
+          <span id="ct-bv">80</span>
+        </label>
+        <label><input type="checkbox" id="ct-loop"> repetir</label>
+        <label>Ao inserir nota
+          <select id="ct-acc">
+            <option value="">natural</option>
+            <option value="#">sustenido</option>
+            <option value="b">bemol</option>
+          </select>
+        </label>
+        <button id="ct-addm" class="ct-btn">+ compasso</button>
+        <button id="ct-delm" class="ct-btn">− compasso</button>
+        <button id="ct-ex1"  class="ct-btn">Exemplo 1ª esp.</button>
+        <button id="ct-ex2"  class="ct-btn">Exemplo 2ª esp.</button>
+        <button id="ct-ly"    class="ct-btn">Gerar LilyPond</button>
+        <button id="ct-lycopy" class="ct-btn">Copiar .ly</button>
+        <button id="ct-lysave" class="ct-btn">Salvar .ly</button>
+      </div>
+    </div>
+
+    <div class="ct-grid">
+      <div class="panel">
+        <div id="ct-voices"></div>
+        <button id="ct-addv" class="ct-btn">+ voz (até 4)</button>
+        <p class="ct-hint">
+          Notas separadas por espaço: letra, alteração (# ou b) e oitava; C4 é o dó central;
+          r é pausa (só no início da 2ª espécie). Na 2ª espécie, duas notas por nota do cantus
+          firmus, menos na última. Cada voz nova é conferida contra o cantus firmus, e as vozes
+          novas entre si são conferidas quanto a paralelas.
+        </p>
+      </div>
+
+      <div class="panel">
+        <p id="ct-sum" aria-live="polite"></p>
+        <div class="ct-roll">
+          <svg id="ct-roll" role="img" aria-label="Gráfico das vozes"></svg>
+        </div>
+        <p class="ct-hint">
+          Clique ou arraste numa coluna para colocar ou mover a nota da voz selecionada;
+          clicar perto de uma nota de outra voz seleciona essa voz. Anéis vermelhos são erros,
+          âmbar são avisos. Números embaixo: intervalos da voz selecionada com o cantus firmus.
+        </p>
+        <ul id="ct-list" class="ct-list"></ul>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-label">Código LilyPond</div>
+      <textarea id="ct-lyout" class="ct-lyout" spellcheck="false" aria-label="Código LilyPond"></textarea>
+      <p class="ct-hint">
+        O código usa notas absolutas, 2/2 e converte automaticamente 1ª espécie em semibreves
+        e 2ª espécie em mínimas. O bloco <code>\midi {}</code> permite gerar MIDI ao compilar no LilyPond.
+      </p>
+    </div>
+
   </div>
 
   <!-- ==================== VIEW: PRÁTICA ==================== -->
@@ -1451,7 +1612,7 @@ setTimeout(function () {
 </div>
 
 <!-- ============================================================
-     MOTOR DE SOM DO APP (áudio, síntese, perfis caixa/fone)
+     MOTOR DE SOM DO APP
      ============================================================ -->
 <script>
 'use strict';
@@ -1519,11 +1680,6 @@ function _mkImpulse(dur, decay) {
 }
 function midiToFreq(m) { return 440 * Math.pow(2, (m - 69) / 12); }
 
-/**
- * Toca uma nota. Garante envelope seguro: se `durOverride` for muito curto
- * para o ataque+decay+release do perfil, sobe até um mínimo, para que as
- * chamadas do Ditado (notas de semicolcheia) não estourem o scheduler.
- */
 function playNote(freq, t, durOverride) {
   initAudio();
   const env  = ENV[_mode];
@@ -2364,7 +2520,8 @@ function switchTab(tab) {
   const btn = document.getElementById('snav-' + tab); if (btn) btn.classList.add('active');
   if (window.innerWidth <= 768) closeSidebar();
   if (tab === 'regua') { const built = document.getElementById('reguaIntervals'); if (built && built.children.length === 0) reguaBuildUI(); }
-  document.querySelector('.main-content').classList.toggle('wide', tab === 'geometrica');
+  /* Contraponto também usa a largura total (roll SVG horizontal) */
+  document.querySelector('.main-content').classList.toggle('wide', tab === 'geometrica' || tab === 'contraponto');
   if (tab === 'geometrica') { if (window.hgOpen) window.hgOpen(); }
   else if (window.hgLeave) window.hgLeave();
 }
@@ -2379,15 +2536,12 @@ _updatePomoDisplay();
 </script>
 
 <!-- ============================================================
-     MÓDULO DITADO MELÓDICO — integrado ao núcleo B.E.M.
-     Adaptado de v2.8: usa o motor de som do app (initAudio/playNote/
-     midiToFreq) e envia acertos para addScore('d').
+     MÓDULO DITADO MELÓDICO
      ============================================================ -->
 <script>
 (function () {
 'use strict';
 
-/* -- Namespace mínimo do módulo dentro do B.E.M -- */
 window.BEM = window.BEM || {};
 window.BEM.pcOf = function (name) {
   const m = { C:0,'C#':1,Db:1,D:2,'D#':3,Eb:3,E:4,F:5,'F#':6,Gb:6,G:7,'G#':8,Ab:8,A:9,'A#':10,Bb:10,B:11 };
@@ -2408,7 +2562,6 @@ window.BEM.nameAt = function (letterIdx, pc) {
   return base + (d > 0 ? '♯' : '♭');
 };
 
-/* ================== Teoria e ritmo ================== */
 const SCALES = {
   major:   [0,2,4,5,7,9,11],
   minor:   [0,2,3,5,7,8,10],
@@ -2725,7 +2878,6 @@ function buildModel(notes, patterns) {
   return { tonicName, scaleType, meter, motor, bars, S, keySig, metricGroups: metricGroupsForBar(meter), eventsPerBar };
 }
 
-/* ================== Estado do módulo ================== */
 let dMode = 'melody', dCurrent = null, dRevealed = false;
 
 function dSetMode(m) {
@@ -2952,7 +3104,6 @@ function dRenderQuiz(forceReveal) {
     }
     $('dAnswerBlock').style.display = 'block';
     setStaffBlurred(false);
-    /* Progresso do aluno — o Ditado agora pontua no placar do B.E.M. */
     addScore(isOk, 'd');
     addHistory('d', dCurrent.model.meter, isOk ? '✓' : '✗', isOk);
   });
@@ -2961,10 +3112,8 @@ function dRenderQuiz(forceReveal) {
 function dInit() {
   TONICS.forEach((n, i) => $('dKey').add(new Option(n, i)));
   dSetMode('melody');
-  /* Só gera quando o usuário abrir a aba — evita travar o login */
   window.dGenerate();
 }
-/* Chama o init quando o app já estiver montado */
 if (document.readyState === 'complete' || document.readyState === 'interactive') {
   setTimeout(dInit, 60);
 } else {
@@ -2974,7 +3123,669 @@ if (document.readyState === 'complete' || document.readyState === 'interactive')
 </script>
 
 <!-- ============================================================
-     HARMONIA GEOMÉTRICA 3D — módulo three.js
+     MÓDULO CONTRAPONTO (Fux) — integrado ao B.E.M
+     ============================================================ -->
+<script>
+(function () {
+'use strict';
+
+const $ = id => document.getElementById('ct-' + id);
+
+/* Teoria */
+const L7  = { C:0,D:1,E:2,F:3,G:4,A:5,B:6 };
+const B12 = [0,2,4,5,7,9,11];
+const LET = { 0:'C', 2:'D', 4:'E', 5:'F', 7:'G', 9:'A', 11:'B' };
+
+function parse(t) {
+  const m = /^([A-Ga-g])([#b]*)(-?\d)$/.exec(t);
+  if (!m) return null;
+  const l = L7[m[1].toUpperCase()];
+  const a = [...m[2]].reduce((s,c) => s + (c === '#' ? 1 : -1), 0);
+  const o = +m[3];
+  return { n: m[1].toUpperCase() + m[2] + o, dia: o*7 + l, midi: 12*(o+1) + B12[l] + a };
+}
+function readVoice(s, rest) {
+  const out = [], bad = [];
+  s.trim().split(/[\s,]+/).filter(Boolean).forEach(t => {
+    if (rest && /^(r|-)$/i.test(t)) { out.push(null); return; }
+    const p = parse(t);
+    p ? out.push(p) : bad.push(t);
+  });
+  return { out, bad };
+}
+function cls(st, se) {
+  const g = st % 7, c = se % 12;
+  if (g === 0) return c === 0 && (st > 0 || se === 0) ? (st === 0 ? 'uni' : 'oct') : 'dis';
+  if (g === 2 && (c === 3 || c === 4)) return 'imp';
+  if (g === 4 && c === 7) return 'per';
+  if (g === 5 && (c === 8 || c === 9)) return 'imp';
+  return 'dis';
+}
+const isPerf = c => c === 'uni' || c === 'oct' || c === 'per';
+
+function leapMsg(a, b) {
+  const st = Math.abs(b.dia - a.dia), se = Math.abs(b.midi - a.midi), up = b.midi > a.midi;
+  if (st === 0) return se ? { w:1, m:'passo cromático sobre a mesma nota' } : null;
+  if (st === 1) return se >= 1 && se <= 2 ? null : { m:'segunda aumentada ou diminuta' };
+  if (st === 2) return se === 3 || se === 4 ? null : { m:'terça aumentada ou diminuta' };
+  if (st === 3) return se === 5 ? null : { m: se === 6 ? 'trítono (mi contra fa), difícil de cantar' : 'quarta diminuta' };
+  if (st === 4) return se === 7 ? null : { m: 'quinta ' + (se < 7 ? 'diminuta' : 'aumentada') };
+  if (st === 5) return up && se === 8 ? null : { m: se === 8 ? 'sexta menor descendente (só é admitida subindo)' : 'sexta maior ou aumentada (proibida)' };
+  if (st === 6) return { m: 'salto de sétima (proibido)' };
+  if (st === 7) return se === 12 ? null : { m: 'oitava aumentada ou diminuta' };
+  return { m: 'salto maior que a oitava' };
+}
+
+function analyze(cf, cp, sp, above) {
+  const I = [];
+  const add = (k, s, m) => I.push({ k, s, m });
+  const n = cf.length, per = sp === 1 ? 1 : 2, need = sp === 1 ? n : 2*n - 1;
+
+  if (n < 2) { add(-1, 'erro', 'O cantus firmus precisa de pelo menos duas notas.'); return I; }
+  if (cp.length !== need) {
+    add(-1, 'erro',
+      `Esperava ${need} notas no contraponto (${sp === 1 ? 'uma por nota do cantus firmus' : 'duas por nota, menos a última'}); há ${cp.length}.`);
+    return I;
+  }
+
+  const cfAt = k => cf[Math.floor(k/per)];
+  const iv   = k => cp[k] ? { st: Math.abs(cp[k].dia - cfAt(k).dia), se: Math.abs(cp[k].midi - cfAt(k).midi) } : null;
+  const c    = k => { const v = iv(k); return v ? cls(v.st, v.se) : null; };
+  const pos  = k => sp === 1 ? `compasso ${k+1}` : `compasso ${Math.floor(k/2)+1}, tempo ${k%2?'fraco':'forte'}`;
+  const nm   = c => ({ uni:'uníssono', oct:'oitava', per:'quinta', imp:'consonância imperfeita', dis:'dissonância' }[c]);
+  const strong = k => sp === 1 || k % 2 === 0;
+  const idx = cp.map((_, k) => k).filter(k => cp[k]);
+
+  cp.forEach((x, k) => { if (!x && k > 0) add(k, 'erro', `${pos(k)}: a pausa só é admitida no início.`); });
+
+  idx.forEach(k => {
+    const above_ = cp[k].midi >= cfAt(k).midi;
+    if (above !== above_ && cp[k].midi !== cfAt(k).midi) add(k, 'aviso', `${pos(k)}: cruzamento de vozes.`);
+    if (strong(k) && c(k) === 'dis') add(k, 'erro', `${pos(k)}: dissonância (${iv(k).st+1}) no tempo forte.`);
+    if (sp === 2 && !strong(k) && c(k) === 'dis') {
+      const a = cp[k-1], b = cp[k+1];
+      const ok = a && b && Math.abs(cp[k].dia - a.dia) === 1 && Math.abs(b.dia - cp[k].dia) === 1
+              && Math.sign(cp[k].dia - a.dia) === Math.sign(b.dia - cp[k].dia);
+      if (!ok) add(k, 'erro', `${pos(k)}: dissonância no tempo fraco só como nota de passagem (grau conjunto, mesma direção).`);
+    }
+    if (strong(k) && c(k) === 'uni' && k !== idx[0] && k !== need-1) add(k, 'erro', `${pos(k)}: uníssono só no início e no fim.`);
+  });
+
+  const k0 = idx[0];
+  if (k0 !== undefined && c(k0) && !isPerf(c(k0)))
+    add(k0, 'erro', `${pos(k0)}: comece com consonância perfeita (uníssono, quinta ou oitava).`);
+
+  const last = need - 1;
+  if (cp[last]) {
+    const cl = c(last);
+    if (cl === 'per') add(last, 'aviso', 'A quinta no final é fraca; prefira oitava ou uníssono.');
+    else if (cl !== 'uni' && cl !== 'oct') add(last, 'erro', 'Termine em uníssono ou oitava.');
+  }
+
+  const sixth = k => { const v = iv(k); return v && (above ? v.st % 7 === 5 && v.se % 12 === 9 : v.st % 7 === 2 && v.se % 12 === 3); };
+  const wantTxt = above ? 'sexta maior' : 'terça menor';
+
+  if (sp === 1 && n > 2 && cp[n-2] && !sixth(n-2))
+    add(n-2, 'aviso', `${pos(n-2)}: o penúltimo compasso pede ${wantTxt} (cadência).`);
+  if (sp === 2 && n > 2) {
+    if (cp[last-2] && c(last-2) !== 'per') add(last-2, 'aviso', `${pos(last-2)}: o penúltimo compasso começa com quinta.`);
+    if (cp[last-1] && !sixth(last-1))       add(last-1, 'aviso', `${pos(last-1)}: depois da quinta vem ${wantTxt}.`);
+  }
+
+  const S = idx.filter(strong);
+  for (let j = 1; j < S.length; j++) {
+    const p = S[j-1], k = S[j];
+    if (k - p !== per) continue;
+    const d1 = Math.sign(cp[k].midi - cp[p].midi);
+    const d2 = Math.sign(cfAt(k).midi - cfAt(p).midi);
+    const kind = d1 === 0 || d2 === 0 ? 'obl' : d1 === d2 ? 'dir' : 'con';
+    const ck = c(k), cpv = c(p);
+    if (kind !== 'dir' || !isPerf(ck)) continue;
+    if (sp === 2 && cp[p+1] && Math.abs(cp[p+1].dia - cp[p].dia) >= 3) continue;
+    if (isPerf(cpv)) {
+      const same = (cpv === ck) || (cpv === 'uni' && ck === 'oct') || (cpv === 'oct' && ck === 'uni');
+      add(k, 'erro', `${pos(k)}: ${same ? (ck === 'per' ? 'quintas paralelas' : 'oitavas paralelas') : 'movimento direto entre perfeitas'}.`);
+    } else if (cpv === 'imp') {
+      add(k, 'erro', `${pos(k)}: movimento direto de imperfeita para ${nm(ck)}; use movimento contrário ou oblíquo.`);
+    }
+  }
+
+  for (let j = 1; j < idx.length; j++) {
+    const a = cp[idx[j-1]], b = cp[idx[j]], r = leapMsg(a, b);
+    if (r) add(idx[j], r.w ? 'aviso' : 'erro', `${pos(idx[j])}: ${a.n} → ${b.n}, ${r.m}.`);
+    if (a.midi === b.midi && sp === 2) add(idx[j], 'aviso', `${pos(idx[j])}: nota repetida.`);
+  }
+
+  for (let j = 2; j < idx.length; j++) {
+    const a = cp[idx[j-2]], b = cp[idx[j-1]], d = cp[idx[j]];
+    const s1 = Math.abs(b.dia - a.dia), s2 = Math.abs(d.dia - b.dia);
+    const same = Math.sign(b.midi - a.midi) === Math.sign(d.midi - b.midi) && b.midi !== a.midi;
+    if (a.midi === b.midi && b.midi === d.midi && sp === 1)
+      add(idx[j], 'aviso', `${pos(idx[j])}: a mesma nota três vezes seguidas.`);
+    else if (same && s1 >= 2 && s2 >= 2)
+      add(idx[j], 'aviso', `${pos(idx[j])}: dois saltos seguidos na mesma direção.`);
+    else if (same && s1 >= 3 && s2 >= 1)
+      add(idx[j], 'aviso', `${pos(idx[j])}: salto sem compensação (volte em sentido contrário).`);
+  }
+
+  const ms = idx.map(k => cp[k].midi);
+  if (Math.max(...ms) - Math.min(...ms) > 16)
+    add(-1, 'aviso', 'O contraponto ultrapassa uma décima; mantenha a linha cantável.');
+
+  return I.sort((a, b) => a.k - b.k);
+}
+
+function pairsCheck(a, b, sa, sb, la, lb, n, vb) {
+  const out = [];
+  const at = (r, s, m) => r[s === 1 ? m : 2*m];
+  for (let m = 1; m < n; m++) {
+    const p0 = at(a, sa, m-1), p1 = at(a, sa, m);
+    const q0 = at(b, sb, m-1), q1 = at(b, sb, m);
+    if (!p0 || !p1 || !q0 || !q1) continue;
+    const d1 = Math.sign(p1.midi - p0.midi), d2 = Math.sign(q1.midi - q0.midi);
+    if (!d1 || d1 !== d2) continue;
+    const c1 = cls(Math.abs(p1.dia - q1.dia), Math.abs(p1.midi - q1.midi));
+    if (!isPerf(c1)) continue;
+    const c0 = cls(Math.abs(p0.dia - q0.dia), Math.abs(p0.midi - q0.midi));
+    const k = sb === 1 ? m : 2*m;
+    if (isPerf(c0)) {
+      const same = c0 === c1 || (c0 !== 'per' && c1 !== 'per');
+      out.push({ v: vb, k, s: 'erro',
+        m: `compasso ${m+1}: ${same ? (c1 === 'per' ? 'quintas paralelas' : 'oitavas paralelas') : 'movimento direto entre perfeitas'} entre ${la} e ${lb}.` });
+    } else if (c0 === 'imp') {
+      out.push({ v: vb, k, s: 'aviso',
+        m: `compasso ${m+1}: movimento direto para perfeita entre ${la} e ${lb}.` });
+    }
+  }
+  return out;
+}
+
+/* Estado */
+const CF = 'D4 F4 E4 D4 G4 F4 A4 G4 F4 E4 D4';
+const EX = {
+  1: 'A4 D5 C5 B4 E5 D5 C5 D5 D5 C#5 D5',
+  2: 'A4 D5 C5 D5 E5 G5 F5 D5 E5 G5 A5 D5 F5 C5 D5 G4 A4 C5 B4 C#5 D5'
+};
+
+const X0 = 44, cw = 34, rh = 10;
+const T   = s => s.trim().split(/[\s,]+/).filter(Boolean);
+const lab = i => i ? 'Voz ' + (i+1) : 'Cantus firmus';
+const avg = r => { const a = r.filter(Boolean); return a.length ? a.reduce((s,x) => s + x.midi, 0) / a.length : 0; };
+const one = v => v.cf || v.sp === 1;
+
+let V = [], act = 1, P = [], I = [], geo = {}, drag = null, head = null, pb = null;
+
+function setEx(e) {
+  V = [
+    { cf:1, sp:1, on:true, txt:CF },
+    { cf:0, sp:e, on:true, txt:EX[e] }
+  ];
+  act = 1;
+  build();
+  run();
+}
+function conv(v, s) {
+  const a = T(v.txt);
+  v.txt = (s === 2 ? a.flatMap((t,i) => i < a.length-1 ? [t,t] : [t]) : a.filter((_,i) => i % 2 === 0)).join(' ');
+  v.sp = s;
+}
+function build() {
+  const box = $('voices');
+  box.textContent = '';
+  V.forEach((v, i) => {
+    const d = document.createElement('div');
+    d.className = 'ct-vc' + (i === act ? ' act' : '');
+    const h = document.createElement('div');
+    h.className = 'ct-vh';
+
+    const r = document.createElement('input');
+    r.type = 'radio'; r.name = 'ct-av'; r.checked = i === act;
+    r.setAttribute('aria-label', 'Editar ' + lab(i));
+    r.onchange = () => { act = i; build(); draw(); };
+
+    const chip = document.createElement('i');
+    chip.style.background = `var(--ct-v${i})`;
+
+    const nmS = document.createElement('span');
+    nmS.className = 'sp';
+    nmS.textContent = lab(i);
+
+    h.append(r, chip, nmS);
+
+    if (!v.cf) {
+      const s = document.createElement('select');
+      s.innerHTML = '<option value="1">1ª espécie</option><option value="2">2ª espécie</option>';
+      s.value = v.sp;
+      s.setAttribute('aria-label', 'Espécie');
+      s.onchange = () => { conv(v, +s.value); build(); run(); };
+      h.append(s);
+    }
+
+    const m = document.createElement('label'), c = document.createElement('input');
+    c.type = 'checkbox'; c.checked = v.on;
+    c.onchange = () => { v.on = c.checked; draw(); };
+    m.append(c, 'som');
+    h.append(m);
+
+    if (!v.cf) {
+      const x = document.createElement('button');
+      x.textContent = '×';
+      x.title = 'Remover voz';
+      x.className = 'ct-btn';
+      x.style.padding = '1px 8px';
+      x.setAttribute('aria-label', 'Remover ' + lab(i));
+      x.onclick = () => { V.splice(i, 1); act = Math.min(act, V.length-1); build(); run(); };
+      h.append(x);
+    }
+
+    const ta = document.createElement('textarea');
+    ta.value = v.txt;
+    ta.spellcheck = false;
+    ta.setAttribute('aria-label', 'Notas de ' + lab(i));
+    ta.oninput = () => { v.txt = ta.value; run(); };
+    v.ta = ta;
+
+    d.append(h, ta);
+    box.append(d);
+  });
+  $('addv').disabled = V.length >= 4;
+}
+
+function run() {
+  const bad = [];
+  P = V.map((v, i) => {
+    const r = readVoice(v.txt, !v.cf && v.sp === 2);
+    if (r.bad.length) bad.push(`${lab(i)} (${r.bad.join(', ')})`);
+    return r.out;
+  });
+
+  I = [];
+  if (bad.length) {
+    I.push({ v:0, k:-1, s:'erro', m:'Notas não reconhecidas: ' + bad.join('; ') + '. Use D4, F#4, Bb3.' });
+  } else {
+    const cf = P[0], mc = avg(cf), multi = V.length > 2;
+    V.forEach((v, i) => {
+      if (!i) return;
+      analyze(cf, P[i], v.sp, avg(P[i]) >= mc).forEach(x =>
+        I.push({ ...x, v:i, m: (multi ? lab(i) + ': ' : '') + x.m })
+      );
+    });
+    for (let a = 1; a < V.length; a++)
+      for (let b = a+1; b < V.length; b++)
+        if (P[a].length && P[b].length)
+          I.push(...pairsCheck(P[a], P[b], V[a].sp, V[b].sp, lab(a), lab(b), cf.length, b));
+  }
+
+  const e = I.filter(i => i.s === 'erro').length;
+  const w = I.length - e;
+  const sum = $('sum'), list = $('list');
+  list.textContent = '';
+  sum.className = e ? 'bad' : (I.length ? '' : 'ok');
+
+  if (!P[1] || !P[1].length)
+    sum.textContent = 'Digite ou desenhe o contraponto.';
+  else if (e || w)
+    sum.textContent = `${e} erro${e===1?'':'s'} e ${w} aviso${w===1?'':'s'}`;
+  else
+    sum.textContent = 'Nenhum problema encontrado. Bom trabalho!';
+
+  I.forEach(i => {
+    const li = document.createElement('li');
+    li.className = i.s;
+    const s = document.createElement('b');
+    s.textContent = i.s === 'erro' ? 'Erro' : 'Aviso';
+    li.append(s, i.m);
+    list.appendChild(li);
+  });
+
+  draw();
+  if ($('lyout')) generateLilyPond();
+}
+
+function spellNear(m, acc) {
+  for (const d of [0, -1, 1]) {
+    const nat = m + d, pc = ((nat % 12) + 12) % 12;
+    if (LET[pc]) return LET[pc] + acc + (Math.floor(nat / 12) - 1);
+  }
+  return null;
+}
+
+function draw() {
+  const svg = $('roll');
+  svg.textContent = '';
+  head = null;
+
+  const n = P[0] ? P[0].length : 0;
+  const all = P.flat().filter(Boolean).map(x => x.midi);
+  if (!n || !all.length) {
+    svg.setAttribute('width', 10);
+    svg.setAttribute('height', 10);
+    geo = {};
+    return;
+  }
+
+  let lo = Math.min(...all) - 4, hi = Math.max(...all) + 4;
+  if (drag && geo.lo !== undefined) { lo = geo.lo; hi = geo.hi; }
+  geo = { lo, hi, n };
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const W = X0 + 2*n*cw + 10;
+  const H = (hi - lo + 1) * rh + 40;
+  const y = m => 6 + (hi - m) * rh;
+
+  svg.setAttribute('width', W);
+  svg.setAttribute('height', H);
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+  const el = (t, a, x) => {
+    const e = document.createElementNS(NS, t);
+    for (const k in a) e.setAttribute(k, a[k]);
+    if (x !== undefined) e.textContent = x;
+    svg.appendChild(e);
+    return e;
+  };
+
+  for (let m = lo; m <= hi; m++) {
+    if (LET[((m % 12) + 12) % 12]) {
+      el('line', { x1:X0, x2:W-6, y1:y(m)+rh/2, y2:y(m)+rh/2, stroke:'var(--border)', 'stroke-width':.6 });
+    }
+  }
+
+  const used = new Map();
+  P.flat().filter(Boolean).forEach(x => used.set(x.midi, x.n));
+  used.forEach((nm, m) => el('text', { x:4, y:y(m)+rh-1 }, nm));
+
+  for (let i = 0; i <= n; i++) {
+    el('line', { x1:X0+i*2*cw-2, x2:X0+i*2*cw-2, y1:2, y2:H-30, stroke:'var(--border)', 'stroke-dasharray':'2 3' });
+  }
+
+  const pos = (i, k) => {
+    const v = V[i], o = one(v);
+    const u = o ? 2*k : k;
+    const w = o || k === P[i].length-1 ? 2 : 1;
+    return { x: X0 + u*cw + 2, w: w*cw - 6, u };
+  };
+
+  V.forEach((v, i) => P[i].forEach((p, k) => {
+    if (!p) return;
+    const q = pos(i, k);
+    if (q.u >= 2*n) return;
+    el('rect', {
+      x:q.x, y:y(p.midi)+1, width:q.w, height:rh-2, rx:2,
+      fill:`var(--ct-v${i})`,
+      stroke: i === act ? 'var(--gold)' : 'none',
+      'stroke-width': 1.5,
+      opacity: v.on ? 1 : .35
+    });
+    if (i === act && i) {
+      const c = P[0][one(v) ? k : Math.floor(k/2)];
+      if (c) el('text', { x:q.x+q.w/2, y:H-12, 'text-anchor':'middle' }, String(Math.abs(p.dia - c.dia) + 1));
+    }
+  }));
+
+  I.forEach(s => {
+    if (s.k < 0 || !P[s.v] || !P[s.v][s.k]) return;
+    const q = pos(s.v, s.k), p = P[s.v][s.k];
+    el('circle', {
+      cx:q.x+q.w/2, cy:y(p.midi)+rh/2, r:Math.min(q.w/2 + 2, 12),
+      fill:'none',
+      stroke: s.s === 'erro' ? 'var(--red)' : 'var(--gold)',
+      'stroke-width': 1.8
+    });
+  });
+
+  head = el('line', { x1:0, x2:0, y1:0, y2:H-30, stroke:'var(--gold)', 'stroke-width':1.5 });
+  head.style.display = 'none';
+}
+function setHead(x) {
+  if (!head) return;
+  head.style.display = x == null ? 'none' : '';
+  if (x != null) { head.setAttribute('x1', x); head.setAttribute('x2', x); }
+}
+
+const svg = $('roll');
+function slotAt(vi, h) {
+  const n = P[0].length;
+  if (h < 0 || h >= 2*n) return -1;
+  return one(V[vi]) ? Math.floor(h/2) : Math.min(h, 2*n - 2);
+}
+function pt(e) {
+  const r = svg.getBoundingClientRect();
+  return [e.clientX - r.left, e.clientY - r.top];
+}
+
+svg.onpointerdown = e => {
+  if (!geo.n) return;
+  const [x, y] = pt(e);
+  const h = Math.floor((x - X0) / cw);
+  if (h < 0 || h >= 2*geo.n) return;
+  const m = geo.hi - Math.floor((y - 6) / 10);
+  let vi = act, best = 99;
+  V.forEach((v, i) => {
+    const k = slotAt(i, h);
+    if (k < 0 || !P[i][k]) return;
+    const d = Math.abs(P[i][k].midi - m);
+    if (d < best && d <= 1) { best = d; vi = i; }
+  });
+  if (vi !== act) { act = vi; build(); }
+  drag = { vi, h };
+  svg.setPointerCapture(e.pointerId);
+  place(e);
+};
+svg.onpointermove = e => { if (drag) place(e); };
+svg.onpointerup = svg.onpointercancel = () => { if (!drag) return; drag = null; draw(); };
+
+function place(e) {
+  const [, y] = pt(e);
+  const k = slotAt(drag.vi, drag.h);
+  const v = V[drag.vi];
+  if (k < 0) return;
+  const m = Math.max(geo.lo, Math.min(geo.hi, geo.hi - Math.floor((y - 6) / rh)));
+  const nm = spellNear(m, $('acc').value);
+  const a = T(v.txt);
+  if (!nm || k >= a.length || a[k] === nm) return;
+  a[k] = nm;
+  v.txt = a.join(' ');
+  v.ta.value = v.txt;
+  run();
+  preview(drag.vi, k, nm);
+}
+
+function preview(vi, k, nm) {
+  try {
+    initAudio();
+    const p = parse(nm);
+    if (!p) return;
+    const t = audioCtx.currentTime + 0.01;
+    playNote(midiToFreq(p.midi), t, 0.6);
+    const cn = P[0][one(V[vi]) ? k : Math.floor(k/2)];
+    if (vi && cn) playNote(midiToFreq(cn.midi), t, 0.6);
+  } catch (e) {}
+}
+
+function play() {
+  stop();
+  try {
+    initAudio();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+  } catch (e) { return; }
+
+  const unit = 60 / +$('bpm').value;
+  const n = P[0].length;
+  const t0 = audioCtx.currentTime + 0.1;
+
+  V.forEach((v, i) => {
+    if (!v.on) return;
+    P[i].forEach((p, k) => {
+      if (!p) return;
+      const o = one(v), u = o ? 2*k : k;
+      const w = o || k === P[i].length-1 ? 2 : 1;
+      playNote(midiToFreq(p.midi), t0 + u*unit, w*unit*0.98);
+    });
+  });
+
+  pb = { t0, unit, total: 2*n*unit };
+  raf();
+}
+function raf() {
+  if (!pb) return;
+  const e = audioCtx.currentTime - pb.t0;
+  if (e >= pb.total) {
+    if ($('loop').checked) { play(); return; }
+    stop();
+    return;
+  }
+  setHead(X0 + Math.max(0, e) / pb.unit * cw);
+  requestAnimationFrame(raf);
+}
+function stop() { pb = null; setHead(null); }
+
+const LY_NOTE = { C:'c', D:'d', E:'e', F:'f', G:'g', A:'a', B:'b' };
+
+function lilyPitch(p) {
+  if (!p) return 'r';
+  const m = /^([A-G])([#b]*)(-?\d)$/.exec(p.n);
+  if (!m) return 'r';
+  const letter = LY_NOTE[m[1]];
+  let acc = '';
+  for (const ch of m[2]) {
+    if (ch === '#') acc += 'is';
+    if (ch === 'b') acc += 'es';
+  }
+  const octave = +m[3];
+  const marks = octave - 3;
+  return letter + acc + (marks > 0 ? "'".repeat(marks) : ",".repeat(-marks));
+}
+
+function lilyBarline(tokens, v) {
+  const sp = one(v) ? 1 : v.sp;
+  const size = sp === 1 ? 1 : 2;
+  const out = [];
+  for (let i = 0; i < tokens.length; i++) {
+    out.push(tokens[i]);
+    if (sp === 1 || i === tokens.length-1) out.push('|');
+    else if ((i+1) % size === 0) out.push('|');
+  }
+  return out.join(' ');
+}
+
+function generateLilyPond() {
+  if (!P.length || !P[0] || !P[0].length) {
+    $('lyout').value = '% Nenhuma música válida para exportar.';
+    return '';
+  }
+  const tempo = Math.max(40, Math.min(160, +$('bpm').value || 80));
+  const lines = [];
+  lines.push('\\version "2.26.0"');
+  lines.push('');
+  lines.push('% B.E.M — Conferidor de contraponto (Fux)');
+  lines.push('');
+  lines.push('global = {');
+  lines.push('  \\time 2/2');
+  lines.push(`  \\tempo 2 = ${tempo}`);
+  lines.push('}');
+  lines.push('');
+
+  V.forEach((v, i) => {
+    const parsed = P[i] || [];
+    const body = lilyBarline(parsed.map(p => lilyPitch(p)), v);
+    const name = i === 0 ? 'cantusFirmus' : `voz${i+1}`;
+    lines.push(`${name} = {`);
+    lines.push('  ' + body.replace(/\|/g, '|\\n  '));
+    lines.push('}');
+    lines.push('');
+  });
+
+  lines.push('\\score {');
+  lines.push('  \\new StaffGroup <<');
+  V.forEach((v, i) => {
+    const name  = i === 0 ? 'cantusFirmus' : `voz${i+1}`;
+    const label = i === 0 ? 'Cantus firmus' : `Voz ${i+1}`;
+    const clef  = i === 0 ? 'treble' : (avg(P[i] || []) < avg(P[0] || []) - 6 ? 'bass' : 'treble');
+    lines.push(`    \\new Staff \\with { instrumentName = "${label}" } {`);
+    lines.push(`      \\clef ${clef}`);
+    lines.push('      \\global');
+    lines.push(`      \\${name}`);
+    lines.push('    }');
+  });
+  lines.push('  >>');
+  lines.push('  \\layout { }');
+  lines.push('  \\midi { }');
+  lines.push('}');
+
+  const result = lines.join('\\n');
+  $('lyout').value = result;
+  return result;
+}
+
+function copyLilyPond() {
+  const s = $('lyout').value || generateLilyPond();
+  if (!s) return;
+  navigator.clipboard?.writeText(s).then(() => {
+    const b = $('lycopy'), old = b.textContent;
+    b.textContent = 'Copiado ✓';
+    setTimeout(() => b.textContent = old, 1200);
+  });
+}
+function saveLilyPond() {
+  const s = $('lyout').value || generateLilyPond();
+  if (!s) return;
+  const blob = new Blob([s], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'bem-contraponto.ly';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+$('play').onclick = () => { if (P[0] && P[0].length) play(); };
+$('stop').onclick = stop;
+$('bpm').oninput = () => { $('bv').textContent = $('bpm').value; };
+
+$('addv').onclick = () => {
+  if (V.length >= 4) return;
+  V.push({
+    cf:0, sp:1, on:true,
+    txt: T(V[0].txt).map(t => t.replace(/(-?\d+)$/, (_, o) => +o + 1)).join(' ')
+  });
+  act = V.length - 1;
+  build(); run();
+};
+$('addm').onclick = () => {
+  V.forEach(v => {
+    const a = T(v.txt);
+    if (!a.length) return;
+    const l = a[a.length-1];
+    a.push(l);
+    if (!one(v)) a.push(l);
+    v.txt = a.join(' ');
+  });
+  build(); run();
+};
+$('delm').onclick = () => {
+  if (P[0].length < 3) return;
+  V.forEach(v => {
+    const a = T(v.txt);
+    const cut = one(v) ? 1 : 2;
+    v.txt = a.slice(0, Math.max(0, a.length - cut)).join(' ');
+  });
+  build(); run();
+};
+$('ex1').onclick = () => setEx(1);
+$('ex2').onclick = () => setEx(2);
+$('ly').onclick     = generateLilyPond;
+$('lycopy').onclick = copyLilyPond;
+$('lysave').onclick = saveLilyPond;
+
+setEx(1);
+
+})();
+</script>
+
+<!-- ============================================================
+     HARMONIA GEOMÉTRICA 3D
      ============================================================ -->
 <script>
 (function () {
